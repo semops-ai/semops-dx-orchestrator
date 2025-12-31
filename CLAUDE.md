@@ -1,16 +1,43 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code when working with this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Status
+## Role in Global Architecture
 
-This is a **staging repository** for public release. The active development happens in [dx-hub-pr](https://github.com/timjmitchell/dx-hub-pr).
+**Role:** Platform/DX (Developer Experience)
 
-## Bounded Context
+```
+semops-dx-orchestrator [PLATFORM/DX]
+        │
+        ├── Owns: Process (how we work)
+        │   - Global architecture docs
+        │   - Cross-repo synchronization rules
+        │   - ADR templates, workflow guides
+        │   - Session notes process
+        │
+        └── Coordinates with: semops-core [SCHEMA]
+            - Owns: Model (what we know)
+            - Schema, knowledge graph, semantic operations
+```
 
-**Platform/DX** - Developer experience layer, process owner, cross-repo orchestrator.
+**Key Ownership Boundary:**
 
-## Role
+- This repo owns **process** - workflow documentation, global architecture docs, ADR templates
+- `semops-core` owns **model** - schema, UBIQUITOUS_LANGUAGE.md, knowledge graph, RAG pipeline
 
-- Owns: Process (how we work), global architecture docs, CLI tools
-- Coordinates with: semops-core (owns model/schema)
+**Global Docs Location:** `docs/GLOBAL_ARCHITECTURE.md` - the system landscape for all repos
+
+## Session Notes
+
+Document work sessions tied to GitHub Issues in `docs/session-notes/`:
+
+- **Format:** `ISSUE-NN-description.md` (one file per issue, append-forever)
+- **Structure:** Date sections within file for chronological tracking
+- **Index:** Update `docs/SESSION_NOTES.md` with new entries
+- **When:** Working on any GitHub Issue, or ad-hoc exploratory sessions
+
+## Key Files
+
+- [docs/GLOBAL_ARCHITECTURE.md](docs/GLOBAL_ARCHITECTURE.md) - System landscape for all repos
+- [docs/decisions/](docs/decisions/) - Architecture Decision Records
+- [docs/session-notes/](docs/session-notes/) - Session logs by issue

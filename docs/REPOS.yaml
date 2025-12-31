@@ -1,0 +1,57 @@
+# SemOps Repository Registry
+# This is the single source of truth for all repos in the semops-ai ecosystem.
+
+org: semops-ai
+url_base: https://github.com/semops-ai
+
+repos:
+  # Platform/DX - Entry point for humans and AI agents
+  - name: semops-dx-orchestrator
+    role: Platform/DX
+    context: Process, tooling, global docs, cross-repo coordination
+    status: active
+
+  # Schema/Infrastructure - Owns the model and services
+  - name: semops-core
+    role: Schema/Infrastructure
+    context: Schema, knowledge graph, infrastructure services
+    status: active
+
+  # Domain repos
+  - name: semops-publisher
+    role: Publishing
+    context: Content workflow, blog agents
+    status: active
+
+  - name: semops-docs
+    role: Documents
+    context: Theory, implementation docs, framework documentation
+    status: active
+
+  - name: semops-data
+    role: Product
+    context: Data eng/DS utilities, research RAG pipeline
+    status: active
+
+  - name: semops-sites
+    role: Frontend
+    context: Websites, deployed apps
+    status: active
+
+  # Standalone (no semops dependency)
+  - name: voice-agent
+    role: Voice Control
+    context: Voice control system for audio production
+    status: active
+    standalone: true
+
+# Planned repos (not yet created)
+planned:
+  - name: semops-crm
+    role: CRM
+    context: Outreach, marketing, pipeline, networking
+
+  - name: semops-backoffice
+    role: Backoffice
+    context: Accounting, expenses, contracts, private ops
+    note: Highest security tier - never published
