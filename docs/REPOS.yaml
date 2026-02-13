@@ -1,0 +1,154 @@
+# SemOps Repository Registry
+# Machine-readable registry of all public repos in the ecosystem.
+# Schema inspired by Backstage catalog-info.yaml (dependsOn, providesApis, consumesApis).
+#
+# Fields:
+#   layer:               semops-core | domain-application
+#   context_type:        core | supporting | generic (DDD subdomain classification)
+#   integration_pattern: DDD integration pattern (shared-kernel, conformist, etc.)
+#   depends_on:          repo dependencies (within SemOps ecosystem)
+#   provides:            APIs/services this repo exposes
+#   consumes:            APIs/services this repo consumes
+#   subdomains:          subdomain participation
+#   capabilities:        Named DDD Modules within each repo
+
+repos:
+  # -- Layer 1: SemOps Core (domain-agnostic, reusable) --
+
+  - name: semops-dx-orchestrator
+    role: Platform/DX
+    context: Architecture governance, project specs, cross-repo coordination
+    layer: semops-core
+    context_type: supporting
+    integration_pattern: published-language
+    status: active
+    depends_on: []
+    provides:
+      - project-specs
+      - architecture-governance
+    consumes: []
+    subdomains:
+      - platform-process
+    capabilities:
+      - Architecture Orchestration & Governance
+      - Project Management
+      - Pattern Management
+      - Lineage Orchestration
+      - Environment Orchestration
+
+  - name: semops-core
+    role: Schema/Infrastructure
+    context: Pattern schema, knowledge base, MCP Server, Query API, infrastructure services
+    layer: semops-core
+    context_type: core
+    integration_pattern: shared-kernel
+    status: active
+    depends_on: []
+    provides:
+      - mcp-server
+      - query-api
+      - postgresql
+      - qdrant
+      - neo4j
+    consumes: []
+    subdomains:
+      - semantic-operations
+      - knowledge-management
+    capabilities:
+      - Global DDD Schema
+      - Domain Knowledge Base
+      - MCP Server
+      - Query API
+      - Coherence Framework
+      - Agentic Lineage
+
+  - name: semops-data
+    role: Analytics/MLOps
+    context: Research RAG, coherence scoring, data lineage
+    layer: semops-core
+    context_type: core
+    integration_pattern: conformist
+    status: active
+    depends_on:
+      - semops-core
+    provides:
+      - research-rag
+      - coherence-scoring
+    consumes:
+      - qdrant
+      - postgresql
+    subdomains:
+      - semantic-operations
+      - knowledge-management
+    capabilities:
+      - Research Corpus
+      - Coherence Scoring
+      - Data Science and ML
+
+  # -- Layer 2: Domain Applications (pluggable, replaceable) --
+
+  - name: semops-publisher
+    role: Content
+    context: Content authoring, MDX publishing, media generation
+    layer: domain-application
+    context_type: supporting
+    integration_pattern: conformist
+    status: active
+    depends_on:
+      - semops-core
+    provides:
+      - content-authoring
+      - mdx-publishing
+    consumes:
+      - mcp-server
+      - query-api
+    subdomains:
+      - content-publishing
+      - knowledge-management
+    capabilities:
+      - Content Authoring
+      - Document Composition
+      - Publishing Pipeline
+      - Media Generation
+      - Style Governance
+
+  - name: semops-docs
+    role: Documents
+    context: Theory documentation, pattern rendering
+    layer: domain-application
+    context_type: supporting
+    integration_pattern: conformist
+    status: active
+    depends_on:
+      - semops-core
+    provides:
+      - theory-docs
+    consumes: []
+    subdomains:
+      - content-publishing
+    capabilities:
+      - Theory Documentation
+      - Implementation Guides
+
+  - name: semops-sites
+    role: Frontend
+    context: Public websites (semops.ai, timjmitchell.com), design system assets
+    layer: domain-application
+    context_type: supporting
+    integration_pattern: customer-supplier
+    status: active
+    depends_on:
+      - semops-publisher
+      - semops-core
+    provides:
+      - semops-ai-website
+      - timjmitchell-website
+    consumes:
+      - supabase-cloud
+      - vercel
+    subdomains:
+      - content-publishing
+    capabilities:
+      - Font Infrastructure
+      - PDF Templates
+      - Web Publishing
