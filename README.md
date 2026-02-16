@@ -97,10 +97,9 @@ Coherence is measured across three dimensions:
 ## Documentation
 
 - [docs/GLOBAL_ARCHITECTURE.md](docs/GLOBAL_ARCHITECTURE.md) - System landscape
-- [docs/COMMANDS.md](docs/COMMANDS.md) - Slash command reference
-- [docs/PROCESS.md](docs/PROCESS.md) - Development workflow
-- [docs/decisions/](docs/decisions/) - Architecture Decision Records
-- [docs/session-notes/](docs/session-notes/) - Agent session logs
+- [docs/REPOS.yaml](docs/REPOS.yaml) - Repository registry
+- [docs/methodology/](docs/methodology/) - Development methodology exports (ADRs, project specs)
+- [docs/repository-operational-model.md](docs/repository-operational-model.md) - Repository operational model
 
 ## Related Repositories
 
