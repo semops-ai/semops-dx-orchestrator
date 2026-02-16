@@ -1,0 +1,195 @@
+# decisions.yaml — ADR Methodology Export
+# Schema: 1.0
+# Source: semops-dx-orchestrator (sanitized from internal ADR index)
+
+schema_version: "1.0"
+
+methodology:
+  name: Architecture Decision Records
+  description: >
+    Significant architectural decisions are documented as ADRs before
+    implementation. Each repo maintains its own ADRs; a cross-repo
+    index aggregates them.
+  statuses:
+    - Draft
+    - In Progress
+    - Complete
+    - Superseded
+  workflow: >
+    Issue created -> ADR drafted (if significant) -> work happens ->
+    ADR status updated -> decision documented for future reference.
+  when_to_create:
+    - Significant architectural decisions
+    - Technology choices with long-term implications
+    - Design patterns that affect multiple components
+    - Decisions that future developers will wonder about
+  template_structure:
+    - section: Executive Summary
+    - section: Context
+    - section: Decision
+    - section: "Consequences (Positive / Negative / Risks)"
+    - section: Implementation Plan
+    - section: Session Log
+    - section: References
+  rules:
+    - Create ADR before implementing significant changes
+    - Update status as work progresses
+    - Link related issues for traceability
+    - Use Session Log for multi-session work
+    - Mark as Superseded (do not delete) when replaced
+
+index:
+  # Sanitized ADR index — titles, repos, dates, and status only.
+  # Individual ADR content is internal.
+
+  semops-dx-orchestrator:
+    - id: ADR-0001
+      title: Semantic-Ops GitHub Organization Migration
+      date: 2025-12-08
+      status: complete
+    - id: ADR-0002
+      title: System Landscape and Domains
+      date: 2025-12-11
+      status: draft
+    - id: ADR-0003
+      title: Three-Tier Repository Workflow
+      date: 2025-12-30
+      status: complete
+    - id: ADR-0004
+      title: Mirror Architecture
+      date: 2026-01-22
+      status: draft
+    - id: ADR-0005
+      title: Ingestion Strategy and Corpus Architecture
+      date: 2026-01-30
+      status: draft
+    - id: ADR-0006
+      title: Architecture/Infrastructure Sync Workflow
+      date: 2026-02-03
+      status: in_progress
+    - id: ADR-0007
+      title: Global Documentation Restructure
+      date: 2026-02-06
+      status: in_progress
+    - id: ADR-0008
+      title: Bounded Context Extraction Pattern
+      date: 2026-02-11
+      status: draft
+
+  semops-core:
+    - id: ADR-0001
+      title: Use Supabase as the Global Knowledge DB
+      status: complete
+    - id: ADR-0003
+      title: AI Workflow Kit - Standardized Development Tooling
+      date: 2025-12-04
+      status: complete
+    - id: ADR-0004
+      title: "Schema Phase 2: Pattern as Aggregate Root"
+      date: 2025-12-22
+      status: complete
+    - id: ADR-0005
+      title: Global Developer Configuration
+      date: 2025-12-06
+      status: complete
+    - id: ADR-0008
+      title: Unified Ingestion and Retrieval Pipeline
+      date: 2026-02-02
+      status: complete
+    - id: ADR-0009
+      title: "Strategic/Tactical DDD Refactor: Three-Layer Architecture"
+      date: 2026-02-07
+      status: in_progress
+    - id: ADR-0011
+      title: Agent Governance Model
+      date: 2026-02-14
+      status: in_progress
+
+  semops-publisher:
+    - id: ADR-0001
+      title: Use Claude Code as Agent Runtime
+      date: 2024-11-30
+      status: complete
+    - id: ADR-0002
+      title: Experiment Framework for Content Generation
+      date: 2025-12-03
+      status: in_progress
+    - id: ADR-0003
+      title: Narrative Style System
+      date: 2025-12-06
+      status: complete
+    - id: ADR-0007
+      title: ComfyUI for Image Generation
+      date: 2025-12-05
+      status: complete
+    - id: ADR-0008
+      title: Model Storage Architecture
+      date: 2025-12-07
+      status: complete
+    - id: ADR-0009
+      title: Pandoc PDF Export with Font Integration
+      date: 2026-01-14
+      status: complete
+    - id: ADR-0010
+      title: Style Guide Architecture
+      date: 2026-01-19
+      status: complete
+    - id: ADR-0013
+      title: Edit Capture Intent Architecture
+      date: 2026-01-28
+      status: draft
+    - id: ADR-0014
+      title: Content Manifest Conventions
+      date: 2026-02-08
+      status: complete
+    - id: ADR-0015
+      title: Publishing Pipeline Architecture
+      date: 2026-02-08
+      status: complete
+
+  semops-docs:
+    - id: ADR-0001
+      title: Semantic Funnel Mental Model
+      date: 2026-01-20
+      status: in_progress
+    - id: ADR-0002
+      title: Extract SEMOPS_DOCS to Public semops-docs Repo
+      date: 2026-02-06
+      status: complete
+
+  semops-data:
+    - id: ADR-0001
+      title: Tech Stack and Architecture Foundations
+      date: 2024-12-05
+      status: complete
+    - id: ADR-0002
+      title: DevContainer and MLops Environment
+      date: 2025-12-09
+      status: complete
+
+  semops-sites:
+    - id: ADR-0002
+      title: Site Design Integration
+      date: 2025-12-09
+      status: complete
+    - id: ADR-0003
+      title: Analytics Stack Evaluation and Implementation
+      date: 2025-12-17
+      status: draft
+    - id: ADR-0004
+      title: Design System Architecture
+      date: 2026-01-03
+      status: complete
+    - id: ADR-0005
+      title: Design System Asset Ownership
+      date: 2026-01-14
+      status: complete
+    - id: ADR-0006
+      title: Content Ingestion Pipeline
+      date: 2026-02-08
+      status: complete
+
+summary:
+  total_adrs: 58
+  repos_covered: 8
+  last_updated: 2026-02-15
