@@ -28,9 +28,9 @@ This pattern derives from version control (git), Domain-Driven Design (bounded c
 | Repo | Feature/Component | Status | Notes |
 |------|-------------------|--------|-------|
 | All repos | Repository structure | Active | Each repo = bounded context |
-| `dx-hub-pr` | CLAUDE.md, GLOBAL_ARCHITECTURE.md | Active | Agent context files |
-| `semops-hub-pr` | UBIQUITOUS_LANGUAGE.md | Active | Canonical definitions |
-| `docs-pr` | Frontmatter schema | Active | Structured metadata |
+| `semops-dx-orchestrator` | CLAUDE.md, GLOBAL_ARCHITECTURE.md | Active | Agent context files |
+| `semops-core` | UBIQUITOUS_LANGUAGE.md | Active | Canonical definitions |
+| `semops-docs` | Frontmatter schema | Active | Structured metadata |
 
 ---
 
@@ -42,11 +42,11 @@ Each repository owns a single domain responsibility:
 
 | Repo | Responsibility | What It "Knows" |
 |------|----------------|-----------------|
-| `dx-hub-pr` | Platform/DX | Process, tooling, global architecture |
-| `semops-hub-pr` | Schema/Infrastructure | Ground truth definitions, data flows |
-| `docs-pr` | Theory/Documentation | 1P concepts, decisions, IP |
-| `publisher-pr` | Publishing | Content workflow, blog agents |
-| `sites-pr` | Frontend | User-facing apps, deployment |
+| `semops-dx-orchestrator` | Platform/DX | Process, tooling, global architecture |
+| `semops-core` | Schema/Infrastructure | Ground truth definitions, data flows |
+| `semops-docs` | Theory/Documentation | 1P concepts, decisions, IP |
+| `semops-publisher` | Publishing | Content workflow, blog agents |
+| `semops-sites` | Frontend | User-facing apps, deployment |
 
 ### 2. Git as Lineage Database
 
@@ -120,7 +120,7 @@ Documents use YAML frontmatter for machine-readable semantics:
 ---
 concept_id: semantic-coherence
 definition: "The degree of shared meaning..."
-owner: semops-hub-pr
+owner: semops-core
 version: 2.1
 ---
 ```
@@ -158,13 +158,13 @@ version: 2.1
 Repos relate to each other like DDD bounded contexts:
 
 ```
-dx-hub-pr [PLATFORM]
+semops-dx-orchestrator [PLATFORM]
     │
-    └── semops-hub-pr [SCHEMA]
+    └── semops-core [SCHEMA]
             │
-            ├── publisher-pr [PUBLISHING]
-            ├── docs-pr [DOCUMENTS]
-            └── sites-pr [FRONTEND]
+            ├── semops-publisher [PUBLISHING]
+            ├── semops-docs [DOCUMENTS]
+            └── semops-sites [FRONTEND]
 ```
 
 ### Dependency Direction
@@ -178,10 +178,10 @@ dx-hub-pr [PLATFORM]
 Use GitHub issue references to coordinate:
 
 ```
-dx-hub-pr#23 (parent issue)
-├── publisher-pr#45 (related work)
-├── semops-hub-pr#89 (schema changes)
-└── docs-pr#12 (documentation)
+semops-dx-orchestrator#NN (parent issue)
+├── semops-publisher#NN (related work)
+├── semops-core#NN (schema changes)
+└── semops-docs#NN (documentation)
 ```
 
 ---
@@ -230,7 +230,7 @@ Can't accidentally break schema from content repo.
 - [open-primitive-pattern.md](open-primitive-pattern.md) - GitHub as Open Primitive tool
 - [ADR-0002-system-landscape.md](../decisions/ADR-0002-system-landscape.md) - Bounded contexts
 - [GLOBAL_ARCHITECTURE.md](../GLOBAL_ARCHITECTURE.md) - System landscape
-- [everything-is-github.md](https://github.com/timjmitchell/docs-pr/blob/main/docs/Publicv1_Supplemental/narrative/everything-is-github.md) - Extended narrative
+- [everything-is-github.md](https://github.com/semops-ai/semops-docs/blob/main/docs/Publicv1_Supplemental/narrative/everything-is-github.md) - Extended narrative
 
 ---
 
