@@ -1,0 +1,195 @@
+schema_version: '1.0'
+source_repo: semops-publisher
+rule_sets:
+- name: Translation Rules
+ description: Rules for transforming internal documentation into public-facing content.
+ rules:
+ - id: capabilities-not-commands
+ summary: Describe what happens and why, not how to invoke it.
+ before: Run /research to trigger the RAG-powered research agent
+ after: The research step queries the knowledge base to gather first-party source material
+ - id: neutral-infra-not-tools
+ summary: Lead with the infrastructure role, name your choice, then acknowledge alternatives.
+ before: Port 6333 for Qdrant REST, 7687 for Neo4j Bolt
+ after: A vector database (Qdrant; Weaviate and Milvus serve the same role)
+ - id: patterns-not-paths
+ summary: Describe the pattern and why it works, not the file conventions.
+ before: Session notes go in docs/session-notes/ISSUE-NN-description.md
+ after: Development work is tracked through session notes -- append-only logs organized by GitHub issue
+ - id: decisions-not-defaults
+ summary: State the choice, the reasoning, and the alternatives.
+ before: Use uv for package management
+ after: Python repos use uv -- chosen for speed in AI-assisted workflows. Poetry or pip-tools are alternatives
+ - id: boundaries-not-internals
+ summary: Explain why the boundary exists, not just where it is.
+ before: This repo owns content creation. Core owns knowledge.
+ after: Each repo has a clear ownership boundary. Publisher handles content creation. The knowledge
+ graph and shared services live in Core.
+ - id: honest-maturity
+ summary: Never present in-progress work as complete.
+ before: Feature is 80% implemented with known gaps
+ after: 'This component is functional but evolving. Current limitations: ...'
+- name: Distilled Editorial Rules
+ description: Heuristics discovered through human-in-the-loop editing across multiple repos.
+ rules:
+ - id: rule-001
+ statement: When a term comes from a specific discipline (DDD, systems theory, information theory),
+ replace it with a plain-language equivalent that conveys the same concept. Reserve the technical
+ term for documents targeting that discipline's audience.
+ scope: style-specific
+ styles:
+ - technical
+ - id: rule-002
+ statement: When a paragraph contains three or more distinct points, restructure as a lead sentence
+ followed by bold-phrase bullet list. Each bullet should be scannable independently.
+ scope: style-specific
+ styles:
+ - technical
+ - id: rule-003
+ statement: Scope claims to the framework or domain they belong to. General concepts should be framed
+ within the specific system context; narrow framing should be broadened when the concept applies
+ more widely.
+ scope: global
+ styles:
+ - technical
+ - id: rule-004
+ statement: When content is stated in two places, keep the version that carries more context or is
+ better positioned for the reader. Remove the duplicate entirely or absorb it into the stronger location.
+ scope: style-specific
+ styles:
+ - technical
+ - id: rule-005
+ statement: Frame outcomes as conditional properties of the system, not promises to the reader. Replace
+ 'you will' / 'you create' with 'when X, then Y' or 'X enables Y'. Remove blockquotes that read as
+ taglines.
+ scope: style-specific
+ styles:
+ - technical
+ - whitepaper
+ - id: rule-006
+ statement: Expand acronyms and domain-specific nomenclature on first use with a short parenthetical.
+ Definitions should be self-contained — avoid defining a concept using other framework-specific terms
+ the reader hasn't encountered yet.
+ scope: global
+ styles:
+ - technical
+ - blog
+ - whitepaper
+ - id: rule-007
+ statement: Do not number section headers (H2, H3, etc.) in body content. Use descriptive headings
+ only.
+ scope: style-specific
+ styles:
+ - technical
+ - id: rule-008
+ statement: When referencing another framework document, link it and include a brief description of
+ what the reader will find there. Keep cross-document terminology consistent — changes in one doc
+ should be mirrored in documents that reference it.
+ scope: global
+ styles:
+ - technical
+ - blog
+ - id: rule-009
+ statement: 'Distinguish AI''s role precisely: AI identifies, encodes, and integrates upfront; downstream
+ execution is deterministic. AI re-engages for interpretation and iteration. Do not frame AI as ''implementing''
+ — it assists human decision-making.'
+ scope: global
+ styles:
+ - technical
+ - blog
+ - id: rule-010
+ statement: When a document presents multiple frameworks or concepts, include an explicit synthesis
+ section that combines them and stands alone as a complete explanation. Don't rely on the reader
+ to infer the connection.
+ scope: global
+ styles:
+ - technical
+ - id: rule-011
+ statement: Avoid dramatic short-sentence style (staccato fragments, standalone reveal lines, 'you've
+ probably had the moment' openers). Embed lists and key points in flowing prose rather than using
+ a slide-deck rhythm.
+ scope: style-specific
+ styles:
+ - marketing-narrative
+ - id: rule-012
+ statement: 'Use founder voice in marketing-narrative content: first-person ''I think'', ''I maintain''
+ for credibility; opportunity tone rather than blame; soften hard claims while maintaining conviction.'
+ scope: style-specific
+ styles:
+ - marketing-narrative
+ - id: rule-013
+ statement: 'Use consistent DIKW terminology: ''levels'' for D positions, ''hierarchy'' for the overall
+ structure, ''transformation'' for the process between levels. Avoid ''stages'' (implies temporal
+ sequence).'
+ scope: global
+ styles:
+ - marketing-narrative
+ - technical
+ - id: rule-014
+ statement: Prefer positive, actionable framing over negative definitions. Instead of 'X is not Y',
+ state what X enables. Acknowledge difficulty while maintaining grounded optimism.
+ scope: style-specific
+ styles:
+ - marketing-narrative
+ - id: rule-015
+ statement: 'Don''t introduce framework concepts or terminology before the reader has enough context
+ to understand them. Build in order: establish observable reality, introduce the concept, then use
+ the framework term. Reserve terms for the section where they''re earned.'
+ scope: global
+ styles:
+ - marketing-narrative
+ - technical
+ - id: rule-016
+ statement: When introducing framework components or concepts, show what work looks like through the
+ model's lens — not what goes wrong. Use operational examples (what people do) rather than failure
+ examples (what breaks).
+ scope: style-specific
+ styles:
+ - marketing-narrative
+ - id: rule-017
+ statement: Don't label observations as 'the key insight' or 'the critical point.' Don't claim ownership
+ of 3P concepts — use 'I use' not 'I built' for established frameworks. Scope claims to what is actually
+ original. Frame as reasoning process, not universal truth.
+ scope: global
+ styles:
+ - marketing-narrative
+ - technical
+ - id: rule-018
+ statement: In marketing-narrative content, use first person (founder voice) and third person (organizations).
+ Do not address the reader directly with 'you' or 'your' — reframe with impersonal constructions
+ or third person.
+ scope: style-specific
+ styles:
+ - marketing-narrative
+ - id: rule-019
+ statement: Don't hypothesize what the document has already established. When the author has built
+ an argument earlier in the text, use consequential framing ('because X') rather than conditional
+ framing ('if X'). The document's own logic is not hypothetical to itself.
+ scope: global
+ styles:
+ - marketing-narrative
+ - technical
+ - whitepaper
+style_guides:
+- name: blog
+ title: Blog Style Guide
+ description: Writing style guidelines for blog posts and informal content in the ike-publisher workflow.
+- name: github-readme
+ title: GitHub README Style Guide
+ description: Writing style guidelines for public-facing GitHub repository READMEs — translating private
+ implementation knowledge into human-readable documentation for external audiences.
+- name: marketing-narrative
+ title: Marketing Narrative Style Guide
+ description: Writing style guidelines for brand storytelling, framework explanations, evergreen web
+ pages, and founder-led narrative content.
+- name: semantic-funnel-section
+ title: Semantic Funnel Section Template
+ description: '**Purpose:** Reusable H2 section for including the Semantic Funnel mental model in framework
+ docs.'
+- name: technical
+ title: Technical Documentation Style Guide
+ description: Writing style, structure, and formatting guidelines for formal technical documentation.
+- name: whitepaper
+ title: Whitepaper Style Guide
+ description: Writing style guidelines for whitepapers, thought leadership, and authoritative position
+ content.

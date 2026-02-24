@@ -1,281 +1,166 @@
-# SemOps Repository Registry
-# Single source of truth for all repos in the ecosystem.
-# Schema inspired by Backstage catalog-info.yaml (dependsOn, providesApis, consumesApis).
-#
-# Fields:
-#   layer:               semops-core | domain-application | external
-#   context_type:        core | supporting | generic (DDD subdomain classification)
-#   integration_patterns: DDD integration patterns this repo participates in (list)
-#   depends_on:          repo dependencies (within SemOps ecosystem)
-#   provides:            APIs/services this repo exposes
-#   consumes:            APIs/services this repo consumes (internal or external)
-#   subdomains:          subdomain participation (see SYSTEM_LANDSCAPE.md §4)
-#   public_mirror:       public repo mapping (org, name, status: staged|synced|none)
-#
-# Capabilities: Named DDD Modules within each repo (see STRATEGIC_DDD.md).
-# Sync workflow validates capabilities against per-repo ARCHITECTURE.md.
-
 repos:
-  # ── Layer 1: SemOps Core (domain-agnostic, reusable) ──────────────────
-
-  - name: semops-dx-orchestrator
-    role: Platform/DX
-    context: Architecture governance, project specs, cross-repo coordination
-    layer: semops-core
-    context_type: supporting
-    integration_patterns:
-      - published-language
-    location: semops-dx-orchestrator
-    status: active
-    lifecycle_stage: active
-    public_mirror:
-      org: semops-ai
-      name: semops-dx-orchestrator
-      status: staged
-    depends_on: []
-    provides:
-      - project-specs
-      - architecture-governance
-    consumes: []
-    subdomains:
-      - platform-process
-    capabilities:
-      - Orchestration
-      - Context Engineering
-      - Autonomous Execution
-      - Pattern Management
-
-  - name: semops-core
-    role: Schema/Infrastructure
-    context: Pattern schema, knowledge base, MCP Server, Query API, infrastructure services
-    layer: semops-core
-    context_type: core
-    integration_patterns:
-      - shared-kernel
-    location: semops-core
-    status: active
-    lifecycle_stage: active
-    public_mirror:
-      org: semops-ai
-      name: semops-core
-      status: staged
-    depends_on: []
-    provides:
-      - mcp-server
-      - query-api
-      - postgresql
-      - qdrant
-      - neo4j
-    consumes: []
-    subdomains:
-      - semantic-operations
-      - knowledge-management
-    capabilities:
-      - Domain Data Model
-      - Internal Knowledge Access
-      - Ingestion Pipeline
-      - Agentic Lineage
-      - Pattern Management
-      - Coherence Scoring
-
-  - name: semops-data
-    role: Analytics/MLOps
-    context: Research RAG, coherence scoring, data lineage
-    layer: semops-core
-    context_type: core
-    integration_patterns:
-      - shared-kernel
-      - customer-supplier
-    location: semops-data
-    status: active
-    lifecycle_stage: active
-    public_mirror:
-      org: semops-ai
-      name: semops-data
-      status: staged
-    depends_on:
-      - semops-core
-    provides:
-      - research-rag
-      - coherence-scoring
-    consumes:
-      - qdrant
-      - postgresql
-    subdomains:
-      - semantic-operations
-      - knowledge-management
-    capabilities:
-      - Research Corpus
-      - Coherence Scoring
-      - Data Science and ML
-
-  # ── Layer 2: Domain Applications (pluggable, replaceable) ─────────────
-
-  - name: semops-publisher
-    role: Content
-    context: Content authoring, MDX publishing, media generation
-    layer: domain-application
-    context_type: supporting
-    integration_patterns:
-      - shared-kernel
-      - conformist
-      - customer-supplier
-    location: semops-publisher
-    status: active
-    lifecycle_stage: active
-    public_mirror:
-      org: semops-ai
-      name: semops-publisher
-      status: staged
-    depends_on:
-      - semops-core
-      - semops-sites
-    provides:
-      - content-authoring
-      - mdx-publishing
-    consumes:
-      - mcp-server
-      - query-api
-    subdomains:
-      - content-publishing
-      - knowledge-management
-    capabilities:
-      - Content Authoring
-      - Document Composition
-      - Publishing Pipeline
-      - Media Generation
-      - Style Governance
-
-  - name: semops-docs
-    role: Documents
-    context: Theory documentation, pattern rendering
-    layer: domain-application
-    context_type: supporting
-    integration_patterns:
-      - shared-kernel
-      - conformist
-    location: semops-docs
-    status: active
-    lifecycle_stage: active
-    public_mirror:
-      org: semops-ai
-      name: semops-docs
-      status: staged
-    depends_on:
-      - semops-core
-    provides:
-      - theory-docs
-    consumes: []
-    subdomains:
-      - content-publishing
-    capabilities:
-      - Theory Documentation
-      - Implementation Guides
-
-  - name: semops-sites
-    role: Frontend
-    context: Public websites (semops-ai.com, semops.ai), design system assets
-    layer: domain-application
-    context_type: supporting
-    integration_patterns:
-      - customer-supplier
-    location: semops-sites
-    status: active
-    lifecycle_stage: active
-    public_mirror:
-      org: semops-ai
-      name: semops-sites
-      status: staged
-    depends_on:
-      - semops-publisher
-      - semops-core
-    provides:
-      - semops-ai-com
-      - semops-ai
-    consumes:
-      - supabase-cloud
-      - vercel
-    subdomains:
-      - content-publishing
-    capabilities:
-      - Font Infrastructure
-      - PDF Templates
-      - Web Publishing
-
-  - name: semops-backoffice
-    role: Operations
-    context: Agentic enterprise — attention stream, financial pipeline, status reports
-    layer: domain-application
-    context_type: generic
-    integration_patterns:
-      - anti-corruption-layer
-    location: semops-backoffice
-    status: active
-    lifecycle_stage: active
-    public_mirror:
-      org: null
-      name: null
-      status: none
-    depends_on:
-      - semops-core
-    provides:
-      - attention-stream
-      - financial-pipeline
-      - status-reports
-    consumes:
-      - fastmail-jmap
-      - github-api
-    subdomains:
-      - agentic-operations
-    capabilities:
-      - Attention Stream
-      - Financial Pipeline
-      - Status Reports
-      - Voice Control
-
-# Planned repos (not yet created)
-planned:
-  - name: crm-pr
-    role: CRM
-    context: Outreach, marketing, pipeline, networking
-    layer: domain-application
-    context_type: generic
-    lifecycle_stage: draft
-
-# Deprecated repos (archived or merged)
-deprecated:
-  - name: project-ike
-    reason: Replaced by private repo
-    disposition: archive
-    lifecycle_stage: retired
-
-  - name: ike-knowledge-ops
-    reason: Merged into semops-core
-    disposition: archive
-    lifecycle_stage: retired
-
-  - name: ike-meta-repo
-    reason: No longer needed
-    disposition: delete
-    lifecycle_stage: retired
-
-  - name: blog-generator
-    reason: Replaced by semops-publisher
-    disposition: archive
-    lifecycle_stage: retired
-
-  - name: tac-1
-    reason: Experiment complete
-    disposition: archive
-    lifecycle_stage: retired
-
-  - name: contextualizer
-    reason: Merging into semops-core
-    disposition: merge
-    lifecycle_stage: retired
-
-  - name: voice-agent
-    reason: Consolidating into semops-backoffice (Productivity)
-    disposition: merge
-    lifecycle_stage: retired
-
+- name: semops-dx-orchestrator
+ role: Platform/DX
+ context: Architecture governance, project specs, cross-repo coordination
+ layer: semops-core
+ context_type: supporting
+ integration_patterns:
+ - published-language
+ status: active
+ lifecycle_stage: active
+ depends_on: []
+ provides:
+ - project-specs
+ - architecture-governance
+ consumes: []
+ subdomains:
+ - platform-process
+ capabilities:
+ - Orchestration
+ - Context Engineering
+ - Autonomous Execution
+ - Pattern Management
+- name: semops-core
+ role: Schema/Infrastructure
+ context: Pattern schema, knowledge base, MCP Server, Query API, infrastructure services
+ layer: semops-core
+ context_type: core
+ integration_patterns:
+ - shared-kernel
+ status: active
+ lifecycle_stage: active
+ depends_on: []
+ provides:
+ - mcp-server
+ - query-api
+ - postgresql
+ - qdrant
+ - neo4j
+ consumes: []
+ subdomains:
+ - semantic-operations
+ - knowledge-management
+ capabilities:
+ - Domain Data Model
+ - Internal Knowledge Access
+ - Ingestion Pipeline
+ - Agentic Lineage
+ - Pattern Management
+ - Coherence Scoring
+- name: semops-data
+ role: Analytics/MLOps
+ context: Coherence scoring, data lineage, analytics platform
+ layer: semops-core
+ context_type: core
+ integration_patterns:
+ - customer-supplier
+ status: active
+ lifecycle_stage: active
+ depends_on:
+ - semops-core
+ provides:
+ - coherence-scoring
+ consumes:
+ - qdrant
+ - postgresql
+ subdomains:
+ - semantic-operations
+ - knowledge-management
+ capabilities:
+ - Coherence Scoring
+ - Synthesis and Simulation
+ - Agentic Lineage
+ - Scale Projection
+- name: semops-research
+ role: Research/Consulting
+ context: Corpus meta-analysis, data due diligence, reference generation
+ layer: domain-application
+ context_type: supporting
+ integration_patterns:
+ - customer-supplier
+ status: active
+ lifecycle_stage: active
+ depends_on:
+ - semops-core
+ provides:
+ - research-rag
+ - data-due-diligence
+ - reference-generation
+ consumes:
+ - qdrant
+ - ollama
+ - docling
+ subdomains:
+ - knowledge-management
+ capabilities:
+ - Corpus Meta-Analysis
+ - Data Due Diligence
+ - Reference Generation
+- name: semops-publisher
+ role: Content
+ context: Content authoring, MDX publishing, media generation
+ layer: domain-application
+ context_type: supporting
+ integration_patterns:
+ - shared-kernel
+ - conformist
+ - customer-supplier
+ status: active
+ lifecycle_stage: active
+ depends_on:
+ - semops-core
+ - semops-sites
+ provides:
+ - content-authoring
+ - mdx-publishing
+ consumes:
+ - mcp-server
+ - query-api
+ subdomains:
+ - content-publishing
+ - knowledge-management
+ capabilities:
+ - Publishing Pipeline
+ - Agentic Composition
+ - Style Capture
+- name: semops-docs
+ role: Documents
+ context: Theory documentation, pattern rendering
+ layer: domain-application
+ context_type: supporting
+ integration_patterns:
+ - shared-kernel
+ - conformist
+ status: active
+ lifecycle_stage: active
+ depends_on:
+ - semops-core
+ provides:
+ - theory-docs
+ consumes: []
+ subdomains:
+ - content-publishing
+ capabilities:
+ - Concept Documentation
+- name: semops-sites
+ role: Frontend
+ context: Public websites (timjmitchell.com, semops.ai), design system assets
+ layer: domain-application
+ context_type: supporting
+ integration_patterns:
+ - customer-supplier
+ status: active
+ lifecycle_stage: active
+ depends_on:
+ - semops-publisher
+ - semops-core
+ provides:
+ - timjmitchell-com
+ - semops-ai
+ consumes:
+ - supabase-cloud
+ - vercel
+ subdomains:
+ - content-publishing
+ capabilities:
+ - Surface Deployment

@@ -67,8 +67,8 @@ Repositories compress context for AI agents:
 
 ```
 Full system context (~100K tokens)
-    → Repo context (~5K tokens) + relationship awareness (~500 tokens)
-    = Effective context with much less noise
+ → Repo context (~5K tokens) + relationship awareness (~500 tokens)
+ = Effective context with much less noise
 ```
 
 When an agent operates in a repo:
@@ -159,12 +159,12 @@ Repos relate to each other like DDD bounded contexts:
 
 ```
 semops-dx-orchestrator [PLATFORM]
-    │
-    └── semops-core [SCHEMA]
-            │
-            ├── semops-publisher [PUBLISHING]
-            ├── semops-docs [DOCUMENTS]
-            └── semops-sites [FRONTEND]
+ │
+ └── semops-core [SCHEMA]
+ │
+ ├── semops-publisher [PUBLISHING]
+ ├── semops-docs [DOCUMENTS]
+ └── semops-sites [FRONTEND]
 ```
 
 ### Dependency Direction

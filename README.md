@@ -30,23 +30,23 @@ SemOps implements:
 
 ```
 semops-dx-orchestrator [PLATFORM/DX]
-        │
-        │  Owns: Process (how we work)
-        │  Coordinates: Cross-repo workflows
-        │
-        ├────────────────────────────────────────┐
-        ▼                                        ▼
-semops-core [SCHEMA]                    voice-agent [STANDALONE]
-        │
-        │  Owns: Model (what we know)
-        │  Schema, knowledge graph, services
-        │
-        ├─────────────┬─────────────┐
-        ▼             ▼             ▼
-semops-publisher  semops-docs   semops-data
-[PUBLISHING]      [DOCUMENTS]   [PRODUCT]
-        │
-        ▼
+ │
+ │ Owns: Process (how we work)
+ │ Coordinates: Cross-repo workflows
+ │
+ ├────────────────────────────────────────┐
+ ▼ ▼
+semops-core [SCHEMA] voice-agent [STANDALONE]
+ │
+ │ Owns: Model (what we know)
+ │ Schema, knowledge graph, services
+ │
+ ├─────────────┬─────────────┐
+ ▼ ▼ ▼
+semops-publisher semops-docs semops-data
+[PUBLISHING] [DOCUMENTS] [PRODUCT]
+ │
+ ▼
 semops-sites [FRONTEND]
 ```
 

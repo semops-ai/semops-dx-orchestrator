@@ -23,7 +23,7 @@ SemOps is testing the thesis that **shared semantic context enables better human
 |-------|-------|---------|
 | **SemOps Core** | semops-dx-orchestrator, semops-core, semops-data | Reusable semantic operations engine — process coordination, schema/services, coherence scoring. Domain-agnostic. |
 | **Content** | semops-publisher, semops-docs, semops-sites | Current domain application — publishing, theory docs, frontends. Replaceable with a different domain. |
-| **Operations** | semops-backoffice | Agentic enterprise — attention management, financial automation. |
+| **Operations** | semops-backoffice | Agentic enterprise — inbox, financial automation, voice control. |
 
 **Key insight:** SemOps Core is the product — a reusable engine for semantic operations. Content/Publishing is the first domain application built on it. The publishing layer could be replaced entirely with a different domain while the core remains unchanged.
 
@@ -37,10 +37,10 @@ Repos are **not** DDD subdomain boundaries. They are **agent role boundaries** t
 - **Human navigation** - "Where does this file go?" is answered by repo role, not domain membership.
 - **Infrastructure proximity** - Code lives near the services it primarily interacts with.
 - **Single ownership (DRY)** - Each capability has exactly one owning repo. Other repos consume, never copy. Following the DRY principle at the repo level eliminates duplication drift:
-  - `semops-sites` owns display: fonts, Mermaid styling, UI components
-  - `semops-publisher` owns content rules: style guides, templates, export formats
-  - `semops-core` owns the model: schema, UBIQUITOUS_LANGUAGE.md, ingestion
-  - When a deployment needs resources from multiple repos, each resource has lineage back to its owning repo - there is no second copy that can fall out of sync.
+ - `semops-sites` owns display: fonts, Mermaid styling, UI components
+ - `semops-publisher` owns content rules: style guides, templates, export formats
+ - `semops-core` owns the model: schema, UBIQUITOUS_LANGUAGE.md, ingestion
+ - When a deployment needs resources from multiple repos, each resource has lineage back to its owning repo - there is no second copy that can fall out of sync.
 
 **What repos are NOT:**
 
@@ -89,7 +89,7 @@ Subdomains are **emergent groupings** of capabilities, not repo boundaries or st
 | **Knowledge Management** | Core | semops-core, semops-data, semops-publisher | Ingestion, classification, retrieval, episode provenance, Research RAG |
 | **Content Publishing** | Supporting | semops-publisher, semops-sites, semops-docs | Multi-surface publishing, MDX pipeline, resume composition, theory docs |
 | **Platform/Process** | Supporting | semops-dx-orchestrator | Architecture governance, sync workflows, coordination |
-| **Agentic Operations** | Generic | semops-backoffice | Financial pipeline, attention stream |
+| **Agentic Operations** | Generic | semops-backoffice | Inbox, financial pipeline, voice control |
 
 > **Visual:** [DIAGRAMS.md — DDD Subdomain Classification](DIAGRAMS.md#ddd-subdomain-classification)
 
@@ -149,15 +149,17 @@ The `entity` table uses an **`entity_type` discriminator** (`content`, `capabili
 
 **Role:** Process owner, global architecture, and cross-repo coordinator
 **Domain:** Platform tooling, process documentation, global architecture
-**Repository:** [semops-ai/semops-dx-orchestrator](https://github.com/semops-ai/semops-dx-orchestrator)
+**Location:** `
 **Version:** 1.3.0
 
 **Architecture (capabilities):**
 
-- **Orchestration** - Process documentation, global architecture (this file), cross-repo coordination patterns, project specs
-- **Context Engineering** - Agent context management: CLAUDE.md per repo, global slash commands, MCP configuration, domain pattern docs
-- **Autonomous Execution** - YOLO Mode (worktree isolation), Experiment Sandbox (Docker-based isolation)
-- **Pattern Management** - Pattern registry (`schemas/pattern_v1.yaml`), domain pattern documentation (`docs/domain-patterns/`), architecture sync (`/arch-sync`, `/global-arch-sync`)
+- **Orchestration** (active) - Process documentation, global architecture (this file), cross-repo coordination patterns, project specs
+- **Context Engineering** (active) - Agent context management: CLAUDE.md per repo, global slash commands, MCP configuration, domain pattern docs
+- **Pattern Management** (active) - Pattern registry (`schemas/pattern_v1.yaml`), domain pattern documentation (`docs/domain-patterns/`), architecture sync (`/arch-sync`, `/global-arch-sync`)
+- **Scale Projection** (in_progress) - Cross-cutting: HITL→ML progression framework. See [](https://github.com/semops-ai/semops-dx-orchestrator/issues/96)
+- **Bounded Context Extraction** (planned) - Extract capabilities into standalone bounded contexts for external domains
+- **Autonomous Execution** (planned) - YOLO Mode (worktree isolation), Experiment Sandbox (Docker-based isolation)
 
 **Key Files:**
 
@@ -177,17 +179,18 @@ The `entity` table uses an **`entity_type` discriminator** (`content`, `capabili
 
 **Role:** Schema owner and infrastructure provider
 **Domain:** Knowledge management, semantic operations, data infrastructure
-**Repository:** [semops-ai/semops-core](https://github.com/semops-ai/semops-core)
+**Location:** `
 **Version:** 3.2.0
 
 **Architecture (capabilities):**
 
-- **Domain Data Model** - Pattern + Coherence Assessment (co-equal aggregates), UBIQUITOUS_LANGUAGE.md, SKOS + PROV-O
-- **Internal Knowledge Access** - MCP Server (10 tools) + Query API for cross-repo agent access. Two query surfaces: semantic search (content discovery via embeddings) and ACL queries (deterministic architectural lookups against DDD schema — patterns, capabilities, integrations, fitness checks)
-- **Ingestion Pipeline** - Provenance-tracked ingestion with corpus routing and episode lineage
-- **Agentic Lineage** - Episode-centric provenance tracking for DDD operations
-- **Pattern Management** - Pattern declaration, SKOS taxonomy, adoption relationships
-- **Coherence Scoring** - Semantic coherence measurement against pattern taxonomy
+- **Domain Data Model** (active) - Pattern + Coherence Assessment (co-equal aggregates), UBIQUITOUS_LANGUAGE.md, SKOS + PROV-O
+- **Internal Knowledge Access** (active) - MCP Server (10 tools) + Query API for cross-repo agent access. Two query surfaces: semantic search (content discovery via embeddings) and ACL queries (deterministic architectural lookups against DDD schema — patterns, capabilities, integrations, fitness checks)
+- **Pattern Management** (active) - Pattern declaration, SKOS taxonomy, adoption relationships
+- **Coherence Scoring** (in_progress) - Semantic coherence measurement against pattern taxonomy
+- **Ingestion Pipeline** (in_progress) - Provenance-tracked ingestion with corpus routing and episode lineage
+- **Bounded Context Extraction** (planned) - Extract capabilities into standalone bounded contexts for external domains
+- **Agentic Lineage** (planned) - Episode-centric provenance tracking for DDD operations
 
 **Infrastructure (services):** See [GLOBAL_INFRASTRUCTURE.md — Core Services](GLOBAL_INFRASTRUCTURE.md#core-services-semops-core)
 
@@ -208,19 +211,15 @@ The `entity` table uses an **`entity_type` discriminator** (`content`, `capabili
 
 **Role:** Content creation and AI-assisted writing for all publishing surfaces
 **Domain:** Multi-format content creation, style guides, AI writing assistants
-**Repository:** [semops-ai/semops-publisher](https://github.com/semops-ai/semops-publisher)
+**Location:** `
 **Version:** 1.2.0
 
 **Architecture (capabilities):**
 
-- **Style guides** - Blog, technical docs, whitepapers, social
-- **Content creation agents** - Research/Outline/Draft/Format pipeline
-- **AI writing assistant** - Edit capture, style learning workflows
-- **Resume composition** - Dimensional schema for structured career data
-- **MDX publishing** - Transform markdown to MDX for Next.js sites
-- **Multi-surface publishing** - Blogs, social, resumes, proposals, whitepapers
-- **PDF export** - Custom templates via semops-sites
-- 23 slash commands for content workflows
+- **Publishing Pipeline** (active) - Content creation, MDX transformation, multi-surface publishing, style guides, PDF export
+- **Agentic Composition** (in_progress) - Compose-from-structured-data pattern: resume composition, proposals. Uses hybrid search from `internal-knowledge-access`
+- **Style Capture** (in_progress) - HITL feedback loop (`/capture-on`, `/capture-off`, `/capture-edits`) building structured training data
+- **Scale Projection** (in_progress) - Cross-cutting: HITL→ML progression via style capture data collection
 
 **Key Files:**
 
@@ -238,14 +237,11 @@ The `entity` table uses an **`entity_type` discriminator** (`content`, `capabili
 
 **Role:** Theory and implementation documentation
 **Domain:** Theory documentation, implementation notes, pattern rendering
-**Repository:** [semops-ai/semops-docs](https://github.com/semops-ai/semops-docs)
+**Location:** `
 
 **Architecture (capabilities):**
 
-- **Theory documentation** - 1P bounded concepts
-- **Implementation decision records**
-- **Pattern rendering** - Patterns → human-readable docs
-- Private notes and drafts
+- **Concept Documentation** (draft) - Theory documentation (1P concepts), implementation decision records, pattern rendering
 
 **Depends On:** semops-core (schema definitions, patterns)
 
@@ -253,38 +249,56 @@ The `entity` table uses an **`entity_type` discriminator** (`content`, `capabili
 
 ### semops-data (Analytics/MLOps)
 
-**Role:** Analytics, coherence scoring, and research pipelines
-**Domain:** MLOps, coherence measurement, research RAG, data utilities
-**Repository:** [semops-ai/semops-data](https://github.com/semops-ai/semops-data)
-**Version:** 1.2.0
+**Role:** Analytics platform, coherence scoring, data utilities
+**Domain:** MLOps, coherence measurement, data utilities
+**Location:** `
+**Version:** 1.3.0
 
 **Architecture (capabilities):**
 
-- **Research RAG** - Ephemeral corpus → meta-analysis (RAPTOR-inspired synthesis)
-- **Coherence scoring** - MLflow-tracked experiments measuring semantic drift
-- **Data lineage tracking** - OpenLineage, Marquez
-- **Synthetic data generation** - SDV, Faker
-- Data engineering utilities, sample datasets, documentation for external users
+- **Coherence Scoring** (in_progress) - MLflow-tracked experiments measuring semantic drift
+- **Synthesis and Simulation** (draft) - Synthetic data generation (SDV, Faker), stack simulation, data profiling
+- **Scale Projection** (in_progress) - Cross-cutting: HITL→ML progression via data engineering scenarios
+- **Agentic Lineage** (planned) - Episode-centric provenance tracking (shared with semops-core)
 
 **Infrastructure (services):** See [GLOBAL_INFRASTRUCTURE.md — Repo-Specific Services](GLOBAL_INFRASTRUCTURE.md#repo-specific-services)
 
 - GPU-enabled DevContainer, Jupyter Lab, MLflow
 
-**In Development:**
-- Reference Architecture Toolkit
-- Agentic Lineage concepts
-
 **Key Files:**
-- `src/data_systems_toolkit/research/` - Research RAG pipeline module
 - `docs/ARCHITECTURE.md` - System architecture
 - `docs/INFRASTRUCTURE.md` - Service dependencies
 
 **Depends On:** semops-core (Qdrant, Docling, Ollama, MCP server)
 
-**Key Pattern:** Research Synthesis Pattern (RAPTOR-inspired)
-- Cluster embeddings to discover themes
-- Extract theme summaries via LLM
-- Generate meta-analysis reports without explicit questions
+> **Note:** Research RAG and data due diligence capabilities extracted to [semops-research](https://github.com/semops-ai/semops-research) via [#50](https://github.com/semops-ai/semops-data/issues/50).
+
+---
+
+### semops-research (Research/Consulting)
+
+**Role:** Corpus meta-analysis, data due diligence, reference generation
+**Domain:** Research consulting product — predict and diagnose data landscapes
+**Location:** `
+**Version:** 0.1.0
+
+**Architecture (capabilities):**
+
+- **Corpus Meta-Analysis** (active) - RAG pipeline: ingest (PDF/web) → embed (Ollama) → query (Claude synthesis)
+- **Data Due Diligence** (active) - Classify → predict → observe → diagnose using 3P frameworks
+- **Reference Generation** (active) - Generate reference models across 7 dimensions from business classification
+
+**Infrastructure (services):**
+
+- Ollama (embeddings, local), Qdrant (vectors), Docling (PDF), Claude API (synthesis)
+
+**Key Files:**
+- `src/research_toolkit/rag/` - RAG pipeline (ingest, embed, query)
+- `src/research_toolkit/diligence/` - Due diligence engine (models, lookups, reference)
+- `docs/ARCHITECTURE.md` - System architecture
+- `docs/USER_GUIDE.md` - Due diligence user guide
+
+**Depends On:** semops-core (Qdrant, Ollama, Docling)
 
 ---
 
@@ -292,14 +306,12 @@ The `entity` table uses an **`entity_type` discriminator** (`content`, `capabili
 
 **Role:** Web frontend and deployed applications
 **Domain:** User-facing websites, deployed endpoints
-**Repository:** [semops-ai/semops-sites](https://github.com/semops-ai/semops-sites)
+**Location:** `
 **Version:** 1.4.0
 
 **Architecture (capabilities):**
 
-- **Web Publishing** - semops-ai.com, semops.ai (Next.js + Vercel)
-- **Font Infrastructure** - Centralized font management, conversion, cross-repo distribution
-- **PDF Templates** - LaTeX templates for branded PDF export via Pandoc
+- **Surface Deployment** (active) - timjmitchell.com, semops.ai (Next.js + Vercel), centralized font management, PDF templates
 
 **Infrastructure (services):** See [GLOBAL_INFRASTRUCTURE.md — Repo-Specific Services](GLOBAL_INFRASTRUCTURE.md#repo-specific-services)
 
@@ -307,7 +319,7 @@ The `entity` table uses an **`entity_type` discriminator** (`content`, `capabili
 
 **Monorepo Structure:**
 
-- `apps/semops-ai/` - semops-ai.com
+- `apps/timjmitchell/` - timjmitchell.com
 - `apps/semops/` - semops.ai
 - `packages/fonts/` - Centralized font infrastructure
 - `packages/pdf-templates/` - LaTeX templates for PDF export
@@ -320,16 +332,16 @@ The `entity` table uses an **`entity_type` discriminator** (`content`, `capabili
 ### semops-backoffice (Operations)
 
 **Role:** Agentic enterprise — replaces SaaS tools with agent-driven automation
-**Domain:** Attention management, financial automation, voice control, email ingestion
-**Repository:** semops-backoffice *(private)*
+**Domain:** Inbox, financial automation, voice control, email ingestion
+**Location:** `
 **Version:** 1.1.0
 
 **Architecture (capabilities):**
 
-- **Attention Stream** - Unified view of actionable items from multiple sources (email, GitHub Projects, manual CLI, calendar)
-- **Financial Pipeline** - Email-based financial automation (transaction parsing, invoice extraction, vendor pattern matching, Beancount export)
-- **Voice Control** - Voice commands for audio production (consolidated from voice-agent). Whisper STT Phase 1 complete; intent parsing Phases 2-3 pending.
-- **Status Reports** - Daily project status generation and delivery
+- **Inbox** (active) - Unified view of actionable items from multiple sources (email, GitHub Projects, manual CLI, calendar)
+- **Financial Pipeline** (planned) - Email-based financial automation (transaction parsing, invoice extraction, vendor pattern matching, Beancount export)
+- **Voice Control** (draft) - Voice commands for audio production (consolidated from voice-agent). Whisper STT Phase 1 complete; intent parsing Phases 2-3 pending
+- **Forgejo Migration** (planned) - Migrate from GitHub to self-hosted Forgejo
 
 **Infrastructure (services):** See [GLOBAL_INFRASTRUCTURE.md — External Services](GLOBAL_INFRASTRUCTURE.md#external-services)
 
@@ -436,12 +448,13 @@ Schema changes are high-impact:
 
 ---
 
-## Repository Visibility
+## Security Tiers
 
-| Visibility | Repos |
-|------------|-------|
-| **Public** | semops-data, semops-sites |
-| **Private** | semops-docs, semops-publisher, semops-core (sanitized versions published) |
+| Tier | Repos | Access | Published |
+|------|-------|--------|-----------|
+| **Public** | semops-data, semops-sites (public content) | Anyone | Yes |
+| **Private** | semops-docs, semops-publisher, semops-core | Tim only | Sanitized versions |
+| **Secure** | semops-backoffice | Tim only, enhanced controls | Never |
 
 ---
 
@@ -518,7 +531,7 @@ Each repo maintains its own decision records in `docs/decisions/`.
 Generate a cross-repo ADR index:
 
 ```bash
-cd semops-dx-orchestrator
+cd 
 python3 scripts/aggregate_adrs.py --output docs/ADR_INDEX.md
 ```
 
@@ -558,10 +571,10 @@ GitHub Issues and ADRs serve complementary purposes:
 Use issue references to link work across repos:
 ```markdown
 ## Blocked By
-- semops-ai/semops-core#NN - Concept table readiness
+- semops-ai/ - Concept table readiness
 
 ## Blocks
-- semops-ai/semops-publisher#NN - Phase 1.5 implementation
+- semops-ai/ - Phase 1.5 implementation
 ```
 
 GitHub renders these as clickable links with status indicators.

@@ -1,133 +1,49 @@
-# project-methodology.yaml — Project Spec Methodology Export
-# Schema: 1.0
-# Source: semops-dx-orchestrator (sanitized from internal project specs)
-
-schema_version: "1.0"
-
+schema_version: '1.0'
 methodology:
-  name: Project Spec Pattern
-  description: >
-    Every project gets a scope definition with outcome, acceptance criteria,
-    and execution sequence. Specs are the contract between coordination
-    and implementation.
-  structure:
-    - section: Outcome
-      description: What "done" looks like in 1-2 sentences
-    - section: Acceptance Criteria
-      description: Concrete, verifiable conditions — project is complete when ALL are true
-    - section: Execution Sequence
-      description: >
-        Ordered plan of work. Each step lists what must be done first
-        and what it unblocks. Steps at the same number can run concurrently.
-    - section: Child Issues
-      description: >
-        Implementation issues live in the repo where code changes happen.
-        The orchestrator holds only the coordination issue and spec.
-    - section: Dependencies
-      description: External dependencies outside this project's control
-    - section: References
-      description: Links to ADRs, related projects, and key documentation
-  commands:
-    - name: project-create
-      description: Create a new project spec from template and GitHub Project board
-    - name: project-review
-      description: Review project status, update spec, and reconcile with board
-  workflow: >
-    GitHub Project created -> spec written from template ->
-    issues created in owning repos -> work tracked via project board ->
-    spec updated as scope evolves -> project closed when done.
-  rules:
-    - Orchestrator issues are coordination/spec only — never implementation
-    - Implementation issues live in the repo where code changes happen
-    - Acceptance criteria must be verifiable — no subjective measures
-    - Update child issue table as issues are created, moved, or completed
-    - If execution sequence needs to change, update the spec and note the reason
-    - Mark status Complete when all acceptance criteria are met
-  relationships:
-    - artifact: ADRs
-      role: "Decisions — they explain WHY. A spec references ADRs but is not one."
-    - artifact: Session Notes
-      role: "Work logs — they capture WHAT HAPPENED during implementation."
-    - artifact: Project Specs
-      role: "Scope definitions — they define WHAT DONE MEANS."
-
+ name: Project Spec Pattern
+ description: Every project gets a scope definition with outcome, acceptance criteria, and execution
+ sequence. Specs are the contract between coordination and implementation.
+ structure:
+ - section: outcome
+ purpose: What done looks like
+ - section: acceptance_criteria
+ purpose: Measurable conditions
+ - section: execution_sequence
+ purpose: Ordered steps with dependencies
+ - section: child_issues
+ purpose: Work items in owning repos
+ - section: dependencies
+ purpose: External blockers
+ workflow: GitHub Project created -> spec written from template -> issues created in owning repos ->
+ work tracked via project board -> spec updated as scope evolves -> project closed when done.
 index:
-  # Sanitized project index — titles, status, and scope summaries only.
-  # Individual specs contain internal coordination detail.
-
-  - id: 13
-    title: Corpus Creation and Query
-    status: active
-    scope: >
-      Populated knowledge base with query API for agents to get precise
-      context about patterns, repos, and architectures.
-
-  - id: 14
-    title: Public Repos Publishing
-    status: active
-    scope: >
-      Sanitized, properly documented public repos under semops-ai org
-      ready for external audiences.
-
-  - id: 15
-    title: Open Source Agentic Lineage
-    status: draft
-    scope: >
-      Published Python package demonstrating agent provenance tracking;
-      public extraction using bounded context extraction pattern.
-
-  - id: 18
-    title: Semantic Coherence Measurement
-    status: draft
-    scope: >
-      Automated measurement of semantic coherence with corpus-level scores,
-      document drift detection, and MLflow experiment tracking.
-
-  - id: 19
-    title: DX Hub Orchestration and Autonomy v1
-    status: complete
-    scope: >
-      Full orchestration for multi-repo ecosystem: project awareness,
-      update delivery, cross-repo sync, and autonomous agent execution.
-
-  - id: 24
-    title: Research Corpus v1
-    status: draft
-    scope: >
-      Complete research capability: capture third-party content, ingest,
-      synthesize insights, promote discoveries, and measure coherence.
-
-  - id: 25
-    title: Scale Projection
-    status: draft
-    scope: >
-      Validated pattern for testing domain coherence by projecting
-      architecture to scaled deployment; delta should be infrastructure only.
-
-  - id: 27
-    title: Bounded Context Extraction
-    status: active
-    scope: >
-      Formalized extraction pattern for extracting bounded contexts
-      into standalone repositories with proper documentation.
-
-  - id: 28
-    title: Forgejo Migration
-    status: active
-    scope: >
-      Self-hosted Forgejo instance on Tailscale mesh proven viable for
-      agent-first workflows; at least one private repo migrated.
-
-  - id: 29
-    title: DX Hub Automation and Infrastructure
-    status: active
-    scope: >
-      Live infrastructure visibility and autonomous agent execution
-      via GitHub Actions (remaining orchestration capabilities).
-
-summary:
-  total_projects: 10
-  active: 5
-  draft: 4
-  complete: 1
-  last_updated: 2026-02-15
+- id: 13
+ title: Corpus Creation and Query
+ status: in_progress
+- id: 14
+ title: Public Repos Publishing
+ status: in_progress
+- id: 15
+ title: Open Source Agentic Lineage
+ status: draft
+- id: 18
+ title: Semantic Coherence Measurement
+ status: draft
+- id: 19
+ title: DX Hub Orchestration & Autonomy v1
+ status: complete
+- id: 24
+ title: Research Corpus v1
+ status: draft
+- id: 25
+ title: Scale Projection
+ status: draft
+- id: 27
+ title: Bounded Context Extraction
+ status: in_progress
+- id: 28
+ title: Forgejo Migration
+ status: in_progress
+- id: 29
+ title: DX Hub Automation & Infrastructure
+ status: in_progress

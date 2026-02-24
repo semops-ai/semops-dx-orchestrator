@@ -1,0 +1,190 @@
+schema_version: '1.0'
+workflows:
+- id: capture-edits
+ name: Extract human edits from AI-generated content and output as YAML corpus
+ source_repo: semops-publisher
+ description: Extract human edits from AI-generated content and output as YAML corpus
+ steps:
+ - name: Parse the file path argument
+ - name: Find the AI draft baseline
+ - name: Check for changes
+ - name: Determine style and session reason
+ - name: Run the capture script
+ - name: Report results
+ - name: Suggest next steps
+- id: capture-off
+ name: Disable edit capture mode and show summary
+ source_repo: semops-publisher
+ description: Disable edit capture mode and show summary
+ steps:
+ - name: Check capture state
+ - name: Read sidecar file
+ - name: Show summary
+ - name: Commit cross-repo changes (if applicable)
+ - name: Remove state file
+ - name: Suggest next steps
+- id: capture-on
+ name: Enable edit capture mode for style learning
+ source_repo: semops-publisher
+ description: Enable edit capture mode for style learning
+ steps:
+ - name: Parse the target file argument
+ - name: Load distilled rules (if available)
+ - name: Determine style type
+ - name: Create capture state
+ - name: Confirm to user
+ - name: Behavior while capture is active
+- id: corpus-review
+ name: Analyze edit corpus to extract patterns and distill reusable rules
+ source_repo: semops-publisher
+ description: Analyze edit corpus to extract patterns and distill reusable rules
+ steps:
+ - name: Discover corpus files
+ - name: Read and parse all corpus files
+ - name: Summarize the corpus
+ - name: Cluster edit reasons by theme
+ - name: Check for existing distilled rules
+ - name: Present top clusters
+ - name: Interactive triage
+ - name: Write distilled rules
+ - name: Extracted from corpus patterns ( review)
+ - name: Optionally promoted to style guide files
+ - name: Loaded as agent context during sessions
+ - name: Update style guides (promoted rules only)
+ - name: Report results
+- id: draft
+ name: Generate full draft from approved outline
+ source_repo: semops-publisher
+ description: Generate full draft from approved outline
+ steps:
+ - name: Ask for the post slug
+ - name: Check that `posts/<slug>.md` exists
+ - name: 'Run: `python publish.py draft <slug>`'
+ - name: 'The draft agent will:'
+ - name: Show the generated `posts/<slug>.md`
+ - name: 'Optional: Style Check'
+ - name: 'User should:'
+ - name: Ask if user wants to proceed to formatting or continue editing
+- id: execute-parallel-experiments
+ name: Run parallel Docker experiments and compare results
+ source_repo: semops-publisher
+ description: Run parallel Docker experiments and compare results
+ steps:
+ - name: Verify `experiments/$EXPERIMENT_NAME-parallel.json` exists
+ - name: Read the parallel config to get variant paths
+ - name: Ensure all variant directories exist with `.env` files
+ - name: Check Docker daemon is running
+ - name: Navigate to its variant directory
+ - name: Run `docker compose up --abort-on-container-exit`
+ - name: Wait for completion
+ - name: Report status back
+ - name: Create PR** - Push branch and create pull request with comparison
+ - name: Re-run specific variant** - Modify and re-run one configuration
+ - name: Adopt winner** - Apply winning configuration to template
+ - name: Discard** - Clean up all experiment files
+- id: format
+ name: Format final draft for WordPress, LinkedIn, and knowledge system
+ source_repo: semops-publisher
+ description: Format final draft for WordPress, LinkedIn, and knowledge system
+ steps:
+ - name: Ask for the post slug
+ - name: Check that `posts/<slug>.md` exists
+ - name: 'Run: `python publish.py format <slug>`'
+ - name: 'The format agent will generate:'
+ - name: Show the generated files
+ - name: 'Next steps:'
+ - name: Mark post as complete!
+- id: new-post
+ name: Create a new blog post with proper directory structure and template
+ source_repo: semops-publisher
+ description: Create a new blog post with proper directory structure and template
+ steps:
+ - name: Ask for the post slug (kebab-case)
+ - name: 'Run: `python publish.py new <slug>`'
+ - name: Open the generated `posts/<slug>.md` file
+ - name: 'Show the template and explain what to fill in:'
+ - name: Wait for user to fill in the template before proceeding
+- id: outline
+ name: Generate or iterate on post outline
+ source_repo: semops-publisher
+ description: Generate or iterate on post outline
+ steps:
+ - name: Ask for the post slug
+ - name: 'Check for existing outline versions: `ls posts/<slug>*.md`'
+ - name: Determine next version number
+ - name: 'Run: `python publish.py outline <slug> --version <N>`'
+ - name: 'The outline agent will:'
+ - name: Show the generated `posts/<slug><N>.md`
+ - name: 'Ask user:'
+- id: prep-parallel-experiments
+ name: Set up parallel Docker-based experiments for A testing configurations
+ source_repo: semops-publisher
+ description: Set up parallel Docker-based experiments for A testing configurations
+ steps:
+ - name: Validate experiment name is kebab-case
+ - name: Ensure `experiments/` exists
+ - name: 'Verify root `.env` has required credentials:'
+ - name: Check no existing experiments with this name pattern exist
+ - name: Create a shared `input.md` in `experiments/$EXPERIMENT_NAME-1.md`
+ - name: Copy it to all variant directories
+ - name: experiments/$EXPERIMENT_NAME-1/ - [description]
+ - name: experiments/$EXPERIMENT_NAME-2/ - [description]
+ - name: experiments/$EXPERIMENT_NAME-3/ - [description]
+- id: prime
+ name: Prime
+ source_repo: semops-publisher
+ description: ''
+- id: publish-mdx
+ name: Generate MDX from final draft for semops-sites blog publishing
+ source_repo: semops-publisher
+ description: Generate MDX from final draft for semops-sites blog publishing
+ steps:
+ - name: Ask for the post slug (or use current post context)
+ - name: Check that `posts/<slug>.md` exists
+ - name: 'Run: `python scripts.py <slug>`'
+ - name: Show the first 20 lines of generated MDX to confirm frontmatter looks correct
+ - name: 'If any required fields are missing (title, date, excerpt, category, author):'
+ - name: 'Show copy command:'
+ - name: 'Remind user of semops-sites side steps:'
+- id: research
+ name: Run research phase for a post using GitHub CLI for 1P sources
+ source_repo: semops-publisher
+ description: Run research phase for a post using GitHub CLI for 1P sources
+ steps:
+ - name: Resolve content type and input file
+ - name: Extract research queries from the input
+ - name: Query the knowledge base
+ - name: Synthesize research output
+ - name: Write the research output
+ - name: Report results and next steps
+- id: status
+ name: Check status of a post or list all posts
+ source_repo: semops-publisher
+ description: Check status of a post or list all posts
+ steps:
+ - name: 'Specific post status:'
+ - name: 'List all posts:'
+- id: generate-proposed
+ name: Generate Proposed
+ source_repo: semops-dx-orchestrator
+ description: ''
+ steps:
+ - name: Shows what will change** — Highlight sections that will be affected by the planned work
+ - name: Explains why** — Reference the issue numbers driving each change
+ - name: Maintains structure** — Keep the same section structure as current docs
+ - name: Marks changes** — Use markdown comments or bold to show what's new
+ - name: Review generated proposed docs
+ - name: Edit if needed to refine LLM output
+ - name: when ready to apply changes
+- id: promote-proposed
+ name: Promote Proposed
+ source_repo: semops-dx-orchestrator
+ description: ''
+ steps:
+ - name: 'Extract metadata from proposed:'
+ - name: 'Update version and date in proposed file:'
+ - name: 'Replace current with promoted:'
+ - name: 'Commit the change:'
+ - name: Review the commit
+ - name: 'Push to remote: `git push`'
+ - name: Close related issues if work is complete
